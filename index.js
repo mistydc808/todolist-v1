@@ -9,13 +9,7 @@ const date = require(__dirname + "/date.js");
 const app = express();
 
 // set an array for the default items in the list
-let items = ["Buy Food", "Prepare Food", "Cook Food", "Eat Food"];
-// set an empty array for new work items
-let workItems = ["Show Up"];
-// create new array for fun items
-let funItems = ["Watch TV", "Read a Book"];
-// set an empty array for new weekend items
-let weekendItems = ["Relax", "Watch TV"];
+let finalExamItems = ["Study", "Sleep Well", "Take Breaks", "Use Flashcards"];
 
 // set EJS as the viewing engine to display html
 app.set('view engine', 'ejs');
@@ -44,22 +38,10 @@ app.post("/", function(req, res) {
     let item = req.body.newItem;
     
     // if route is /work, add to work list
-    if (req.body.list === "Work") {
+    if (req.body.list === "finals") {
         workItems.push(item);
-        res.redirect("/work");
+        res.redirect("/finals");
     } 
-    
-    // if route is /fun, add to fun list
-    else if (req.body.list === "Fun") {
-        funItems.push(item);
-        res.redirect("/fun");
-    } 
-
-    // if route is /weekend, add to fun list
-    else if (req.body.list === "Weekend") {
-        weekendItems.push(item);
-        res.redirect("/weekend");
-    }
 
     else {
         items.push(item);
@@ -67,23 +49,11 @@ app.post("/", function(req, res) {
     }
 });
 
-// display work to do list on the localhost:3000/work route!
-app.get("/work", function(req, res){
+// display finals to do list on the localhost:3000/work route!
+app.get("/finals", function(req, res){
 
   let day = date.getDate();
-    res.render("list", {listTitle: "Work To Do List", newListItems: workItems})
-});
-
-// display fun to do list
-app.get("/fun", function(req, res){
-
-  let day = date.getDate();
-    res.render("list", {listTitle: "Fun To Do List", newListItems: funItems})
-});
-
-// display weekend to do list
-app.get("/weekend", function(req, res){
-    res.render("list", {listTitle: "Weekend To Do List", newListItems: weekendItems})
+    res.render("list", {listTitle: "Finals To Do List", newListItems: finalExamItems})
 });
 
 app.listen(3000, function() {
